@@ -1,0 +1,40 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" type="image/png" href="{% static 'images/icons/euphoria.ico' %}"/>
+	<title>Congratulations</title>
+	<style>
+			#congratulate
+			{
+				margin-top: 20%;
+				text-align : center
+			}
+			body
+			{
+				background-color : #54e2e7;
+			}
+	</style>
+</head>
+<body>
+
+	<div   id = "congratulate">
+	<h1> {{ heading }} &#9989;</h1>
+	<h3><strong> {{ content }}</strong></h3>
+	<h4> Thanks for using our service </h4>
+        <p>return to</p>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <br>
+			{% if user.isHotel_representative %}
+				<li><a href="{% url 'hotels' %}"> {{ user.username }} hotels </a></li>
+			{% else %}
+            <li><a href="{% url 'mybookings' %}"> {{ user.username }} bookings </a></li>
+			{% endif %}
+        </ul>
+	</div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,608 @@
+{% load static from staticfiles %}
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Euphoria booking</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+
+
+  <!-- Facebook and Twitter integration -->
+
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+		<link rel="icon" type="image/png" href="{% static 'images/icons/euphoria.ico' %}"/>
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> <!-- Drop down login -->
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+	
+	<!-- Date Picker -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+	<!-- Flaticons  -->
+	<link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+	<!-- Modernizr JS -->
+	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="{% static 'js/respond.min.js' %}"></script>
+	<![endif]-->
+
+	<script>
+
+	var check_in_date;
+
+
+	function checkCheckInDate(dateItem)
+	{
+		var dateArr = dateItem.value;
+		var result = dateArr.split('/');
+		var month, year, day;
+		month = result[0] - 1;
+		date = result[1];
+		year = result[2];
+		var selected_date = new Date(year, month, date);
+		check_in_date = selected_date;
+
+		selected_date.setDate(selected_date.getDate() + 1);
+		var todays_date = new Date();
+		if(selected_date<todays_date)
+		{
+			alert("Check-in Date should be present day onwards");
+			document.getElementById("check_in_date").value = '';
+		}
+		present_month = todays_date.getMonth();
+		present_year = todays_date.getUTCFullYear();
+		selected_year = selected_date.getUTCFullYear();
+
+		if ( selected_year - present_year  >=	 1)
+		{
+			alert("Please select valid date from this year only");
+			document.getElementById("check_in_date").value = '';
+		}
+		if ( month - present_month >= 3)
+		{
+			alert("Check-in Date should not exceed three months");
+			document.getElementById("check_in_date").value = '';
+		}
+	}
+
+	function Checkout_Date(dateItem)
+	{
+		var dateArr = dateItem.value;
+		var result = dateArr.split('/');
+		var month, year, day;
+		month = result[0] - 1;
+		date = result[1];
+		year = result[2];
+		var selected_date = new Date(year, month, date);
+
+		if(selected_date < check_in_date)
+		{
+			alert("Atleast check out date should be one day after check in date");
+			document.getElementById("check_out_date").value = '';
+		}
+		check_in_month = check_in_date.getMonth();
+		if(month - check_in_month > 2)
+		{
+			alert("Check-out date should not exceed three months");
+			document.getElementById("check_out_date").value = '';
+		}
+	}
+
+	function subscribe()
+	{
+    	alert("Congratulations you have subscribed successfully");
+	}
+
+	</script>
+	</head>
+	<body>
+		
+	<div class="colorlib-loader"></div>
+
+	<div id="page">
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-4">
+							<p class="site">www.euphoria.com</p>
+						</div>
+						<div class="col-xs-8 text-right">
+							<p class="num">Call: +7680845022</p>
+							<ul class="colorlib-social">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<div id="colorlib-logo"><a href="{% url 'home' %}">Euphoria_Bookings</a></div>
+						</div>
+						<div class="col-xs-10 text-right menu-1">
+							<ul>
+								<li class="active"><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="{% url 'about' %}">About</a></li>
+								<li><a href="{% url 'contact' %}">Contact</a></li>
+
+
+								{% if user.is_authenticated %}
+
+								{% if user.isHotel_representative %}
+									<li><a href="{% url 'hotel_upload' %}"> Add Hotel </a></li>
+									<li><a href="{% url 'hotels' %}"> {{ user.username }} Hotels </a></li>
+								{% else %}
+									<li><a href="{% url 'mybookings' %}"> {{ user.username }}  bookings </a></li>
+								{% endif %}
+								<li><a href="{% url 'logout' %}">Logout</a></li>
+								{% else %}
+
+								<!--<li><a href="{% url 'login' 0 %}">signup/login</a></li>-->
+                                <li>
+
+                                    <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Login</button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{% url 'login' 1  %}">Hotel Representative</a>
+                                        <a class="dropdown-item" href="{% url 'login' 0 %}">Customer</a>
+                                    </div>
+                                    </div>
+                                </li>
+
+                                {% endif %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<aside id="colorlib-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url('{% static  'images/img_bg_5.jpg' %}')";>
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+				   			<div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+				   				<div class="slider-text-inner text-center">
+				   					<h1>Welcome to the Euphoria bookings</h1>
+
+										<p><a class="btn btn-primary btn-demo" href="{% url 'about' %}"></i> View Detail</a> <a class="btn btn-primary btn-learn"  href="{% url 'contact' %}">Know More</a></p>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url('{% static  'images/img_bg_2.jpg' %}')";>
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+				   			<div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+				   				<div class="slider-text-inner text-center">
+				   					<h2>Discover &amp; Enjoy</h2>
+				   					<h1>Everything you need in this site</h1>
+										<p><a class="btn btn-primary btn-demo" href="{% url 'about' %}"></i> View Detail</a> <a class="btn btn-primary btn-learn"  href="{% url 'contact' %}">Know More</a></p>
+				   				</div>
+				   			</div>
+
+				   		</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url('{% static  'images/img_bg_3.jpg' %}')";>
+			   		<div class="overlay"></div>
+			   		<div class="container-fluids">
+			   			<div class="row">
+				   			<div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+				   				<div class="slider-text-inner text-center">
+				   					<h2>You are invited</h2>
+				   					<h1>We know how to please you</h1>
+										<p><a class="btn btn-primary btn-demo" href="{% url 'about' %}"></i> View Detail</a> <a class="btn btn-primary btn-learn"  href="{% url 'contact' %}">Know More</a></p>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url('{% static  'images/img_bg_4.jpg' %}')";>
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+				   			<div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+				   				<div class="slider-text-inner text-center">
+				   					<h2>Come &amp; enjoy the unforgetable nights</h2>
+				   					<h1>through this bookings</h1>
+										<p><a class="btn btn-primary btn-demo" href="{% url 'about' %}"></i> View Detail</a> <a class="btn btn-primary btn-learn"  href="{% url 'contact' %}">Know More</a></p>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>	   	
+			  	</ul>
+		  	</div>
+		</aside>
+		<div id="colorlib-reservation">
+			<div class="container">
+                <form  action = "{% url 'location' %}" method = "post" enctype="multipart/form-data" >
+                     {% csrf_token %}
+				<div class="row">
+					<div class="col-md-12 search-wrap">
+						<form method="post" class="colorlib-form">
+		              	<div class="row">
+						  <div class="col-md-3">
+		                  <div class="form-group">
+		                    <label for="date">Location</label>
+
+		                    <div class="form-field">
+								<i class="icon icon-arrow-down3"></i>
+                                <input type="text" placeholder="Location.." name = "location" pattern="[a-zA-Z]{5,}" required>
+								<span> Enter valid city name</span>
+		                    </div>
+		                  </div>
+		                </div>
+						
+		                <div class="col-md-2">
+		                  <div class="form-group">
+		                    <label for="date">Check-in:</label>
+		                    <div class="form-field">
+		                      <i class="icon icon-calendar2"></i>
+		                      <input type="text" id="check_in_date" class="form-control date" placeholder="Check-in" name ="check_in" required  onchange="checkCheckInDate(this)">
+		                    </div>
+		                  </div>
+		                </div>
+
+		                <div class="col-md-2">
+		                  <div class="form-group">
+
+		                    <label for="date">Check-out:</label>
+                              <div class="form-field">
+		                      <i class="icon icon-calendar2"></i>
+		                      <input type="text" id="check_out_date" class="form-control date" placeholder="Check-out" name = "check_out" required  onchange="Checkout_Date(this)">
+		                    </div>
+		                  </div>
+                        </div>
+
+		                <div class="col-md-2">
+		                  <div class="form-group">
+		                    <label for="adults">Adults</label>
+		                    <div class="form-field">
+		                      <i class="icon icon-arrow-down3"></i>
+		                      <select name="adult" id="people" class="form-control">
+		                        <option value=1>1</option>
+		                        <option value=2>2</option>
+		                        <option value=3>3</option>
+		                        <option value=4>4</option>
+		                        <!--<option value=5+>5+</option>-->
+		                      </select>
+		                    </div>
+		                  </div>
+		                </div>
+		                <div class="col-md-2">
+		                  <div class="form-group">
+		                    <label for="children">Children</label>
+		                    <div class="form-field">
+		                      <i class="icon icon-arrow-down3"></i>
+		                      <select name="children" id="people1" class="form-control">
+                                  <option value=0>0</option>
+		                        <option value=1>1</option>
+		                        <option value=2>2</option>
+		                        <option value=3>3</option>
+		                        <option value=4>4</option>
+		                        <!--<option value=5>5+</option>-->
+		                      </select>
+								<span>Age Below 7 only</span>
+		                    </div>
+		                  </div>
+		                </div>
+
+
+		                  <div class="col-md-2" style="border-left-width: 0px;border-left-style: solid;margin-left: 40%;" align="center">
+
+		                  <input name="submit" id="submit" value="Search" class="btn btn-primary btn-block" onclick="checkCheckInDate(check_in)" type="submit">
+		                	</div>
+
+                        </div>
+				  </form>
+					</div>
+				</div>
+                </form>
+			</div>
+		</div>
+
+		<div id="colorlib-services">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 animate-box text-center">
+						<div class="services">
+							<span class="icon">
+								<i class="flaticon-reception"></i>
+							</span>
+							<h3>24/7 Front Desk</h3>
+							<p>24/7 service for the customers and there queries</p>
+						</div>
+					</div>
+					<div class="col-md-3 animate-box text-center">
+						<div class="services">
+							<span class="icon">
+								<i class="flaticon-herbs"></i>
+							</span>
+							<h3>Spa Suites</h3>
+							<p>A place where to relieve your stress and to enjoy your holiday</p>
+						</div>
+					</div>
+					<div class="col-md-3 animate-box text-center">
+						<div class="services">
+							<span class="icon">
+								<i class="flaticon-car"></i>
+							</span>
+							<h3>Transfer Services</h3>
+							<p>Pick up and dropping services are also available</p>
+						</div>
+					</div>
+					<div class="col-md-3 animate-box text-center">
+						<div class="services">
+							<span class="icon">
+								<i class="flaticon-cheers"></i>
+							</span>
+							<h3>Restaurant &amp; Bar</h3>
+							<p> It is the place to surprise your taste buds from routine food and give them a new experience</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="colorlib-rooms" class="colorlib-light-grey">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
+						<span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+						<h2>Rooms &amp; Suites</h2>
+						<p>Below are the approximately general prices for any hotel</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 animate-box">
+						<div class="owl-carousel owl-carousel2">
+							<div class="item">
+								<a  class="room image-popup-link" style="background-image: url('{% static  'images/room-1.jpg' %}')";>></a>
+								<div class="desc text-center">
+									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+									<h3><a href="{% static 'rooms-suites.html' %}">Suite</a></h3>
+									<p class="price">
+										<span class="currency">Rs</span>
+										<span class="price-room">5000</span>
+										<span class="per">/ per night</span>
+									</p>
+									<ul>
+										<!--<li><i class="icon-check"></i> Only 10 rooms are available</li>-->
+										<br><br>
+										<li><i class="icon-check"></i> Breakfast included</li>
+										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+									</ul>
+									<!--<p><a class="btn btn-primary btn-book">Book now!</a></p>-->
+								</div>
+							</div>
+							<div class="item">
+								<a class="room image-popup-link" style="background-image: url('{% static  'images/room-2.jpg' %}')";>></a>
+								<div class="desc text-center">
+									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i></span>
+									<h3><a href="{% static  'rooms-suites.html' %}">Double Room</a></h3>
+									<p class="price">
+										<span class="currency">Rs</span>
+										<span class="price-room">1990</span>
+										<span class="per">/ per night</span>
+									</p>
+									<ul>
+										<li><i class="icon-check"></i> Perfect for traveling couples</li>
+										<li><i class="icon-check"></i> Breakfast included</li>
+										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+									</ul>
+									<!--<p><a class="btn btn-primary btn-book">Book now!</a></p>-->
+								</div>
+							</div>
+							<div class="item">
+								<a class="room image-popup-link" style="background-image: url('{% static  'images/room-3.jpg' %}')";>></a>
+								<div class="desc text-center">
+									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i></span>
+									<h3><a href="{% static 'rooms-suites.html' %}">Family Room</a></h3>
+									<p class="price">
+										<span class="currency">Rs</span>
+										<span class="price-room">2490</span>
+										<span class="per">/ per night</span>
+									</p>
+									<ul>
+										<li><i class="icon-check"></i> Two double beds</li>
+										<li><i class="icon-check"></i> Babysitting facilities</li>
+										<li><i class="icon-check"></i> 1 free bed available on request</li>
+									</ul>
+									<!--<p><a class="btn btn-primary btn-book">Book now!</a></p>-->
+								</div>
+							</div>
+							<div class="item">
+								<a  class="room image-popup-link" style="background-image: url('{% static  'images/room-3.jpg' %}')";>>></a>
+								<div class="desc text-center">
+									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i></span>
+									<h3><a href="{% static 'rooms-suites.html' %}">Classic Double Room</a></h3>
+									<p class="price">
+										<span class="currency">Rs</span>
+										<span class="price-room">2500</span>
+										<span class="per">/ per night</span>
+									</p>
+									<ul>
+										<!--<li><i class="icon-check"></i> Only 10 rooms are available</li>-->
+										<br><br>
+										<li><i class="icon-check"></i> Breakfast included</li>
+										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+									</ul>
+									<!--<p><a class="btn btn-primary btn-book">Book now!</a></p>-->
+								</div>
+							</div>
+							<div class="item">
+								<a  class="room image-popup-link" style="background-image: url('{% static  'images/room-4.jpg' %}')";>> </a>
+								<div class="desc text-center">
+									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i></span>
+									<h3><a href="{% static 'rooms-suites.html' %}">Superior Double Room</a></h3>
+									<p class="price">
+										<span class="currency">Rs</span>
+										<span class="price-room">2800</span>
+										<span class="per">/ per night</span>
+									</p>
+									<ul>
+										<li><i class="icon-check"></i> Perfect for traveling couples</li>
+										<li><i class="icon-check"></i> Breakfast included</li>
+										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+									</ul>
+									<!--<p><a class="btn btn-primary btn-book">Book now!</a></p>-->
+								</div>
+							</div>
+							<div class="item">
+								<a  class="room image-popup-link" style="background-image: url('{% static  'images/room-6.jpg' %}')";>></a>
+								<div class="desc text-center">
+									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i></span>
+									<h3><a href="{% static 'rooms-suites.html' %}">Superior Family Room</a></h3>
+									<p class="price">
+										<span class="currency"><small>Rs</small></span>
+										<span class="price-room">4000</span>
+										<span class="per">/ per night</span>
+									</p>
+									<ul>
+										<li><i class="icon-check"></i> Perfect for traveling couples</li>
+										<li><i class="icon-check"></i> Breakfast included</li>
+										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+									</ul>
+									<!--<p><a class="btn btn-primary btn-book">Book now!</a></p>-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--<div class="col-md-12 text-center animate-box">-->
+						<!--<a href="#">View all rooms <i class="icon-arrow-right3"></i></a>-->
+					<!--</div>-->
+				</div>
+			</div>
+		</div>
+
+		<div id="colorlib-subscribe" style="{% static 'background-image: url(images/img_bg_2.jpg);' %}">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
+						<span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+						<h2>Sign Up for a Newsletter</h2>
+						<p>Get A 50% Discounts in every Rooms, Book now!</p>
+						<form class="form-inline qbstp-header-subscribe">
+							<div class="row">
+								<div class="col-md-12 col-md-offset-0">
+									<div class="form-group">
+										<input class="form-control" id="email" placeholder="Enter your email" style="margin-left: -24px;margin-right: 251px;" type="text">
+										<button type="submit" class="btn btn-primary" onclick = "subscribe()">Subscribe</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer id="colorlib-footer" role="contentinfo">
+			<div class="container">
+				<div class="row row-pb-md">
+					<div class="col-md-3 colorlib-widget">
+						<h4>Euphoria bookings</h4>
+						<p>Euphoria bookings exclusively built for making hotel bookings easily </p>
+						<p>
+							<ul class="colorlib-social-icons">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</p>
+					</div>
+
+					<div class="col-md-3 col-md-push-1">
+						<h4>Contact Information</h4>
+						<ul class="colorlib-footer-links">
+
+							<li><a href="tel://7680845022">+7680845022 </a></li>
+							<li><a href="euphoriareservation@gmail.com">euphoriareservation@gmail.com</a></li>
+							<li><a href="http://euphoriabookings.com">euphoriabookings.com</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</footer>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<!-- jQuery Easing -->
+	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<!-- Flexslider -->
+	<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+	<!-- Owl carousel -->
+	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+	<!-- Magnific Popup -->
+	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'js/magnific-popup-options.js' %}"></script>
+	<!-- Date Picker -->
+	<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+	<!-- Main -->
+	<script src="{% static 'js/main.js' %}"></script>
+
+	</body>
+</html>
+

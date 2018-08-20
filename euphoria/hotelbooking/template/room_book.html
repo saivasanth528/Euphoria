@@ -1,0 +1,351 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+
+	<!-- Theme style  -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- culprit for changing theme -->
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">   <!-- Font changing :) -->
+
+
+  <title>Hotel booking form</title>
+    <link rel="icon" type="image/png" href="{% static 'images/icons/euphoria.ico' %}"/>
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/room_style.css' %}">
+
+	<script>
+
+		function checkCheckInDate(dateItem)
+		{
+			var dateArr = dateItem.value;
+			var result = dateArr.split('-');
+			var month, year, day;
+			year = result[0];
+			month = result[1] - 1;
+			date = result[2];
+
+			var selected_date = new Date(year, month, date);
+			check_in_date = selected_date;
+
+			selected_date.setDate(selected_date.getDate() + 1);
+			var todays_date = new Date();
+			if(selected_date<todays_date)
+			{
+				alert("Check-in Date should be present day onwards");
+				document.getElementById("check_in_date").value = '';
+				document.getElementById("amount").value = '';
+
+			}
+			present_month = todays_date.getMonth();
+			present_year = todays_date.getUTCFullYear();
+			selected_year = selected_date.getUTCFullYear();
+
+			if ( selected_year - present_year  >=	 1)
+			{
+				alert("Please select valid date from this year only");
+				document.getElementById("check_in_date").value = '';
+				document.getElementById("amount").value = '';
+			}
+			if ( month - present_month >= 3)
+			{
+				alert("Check-in Date should not exceed three months");
+				document.getElementById("check_in_date").value = '';
+				document.getElementById("amount").value = '';
+			}
+		}
+		function Checkout_Date(dateItem)
+		{
+			var dateArr = dateItem.value;
+			var result = dateArr.split('-');
+			var month, year, day;
+			year = result[0];
+			month = result[1] - 1;
+			date = result[2];
+
+			var selected_date = new Date(year, month, date);
+
+			if(selected_date < check_in_date)
+			{
+				alert("Atleast check out date should be one day after check in date");
+				document.getElementById("check_out_date").value = '';
+				document.getElementById("amount").value = '';
+			}
+			check_in_month = check_in_date.getMonth();
+			if(month - check_in_month > 2)
+			{
+				alert("Check-out date should not exceed three months");
+				document.getElementById("check_out_date").value = '';
+				document.getElementById("amount").value = '';
+			}
+		}
+		function calculate_amount()
+		{
+				var one_day=1000*60*60*24;
+				var check_in = document.getElementById("check_in_date").value;
+				var check_out  = document.getElementById("check_out_date").value;
+				if ( check_in == '' || check_out == '')
+				{
+					return;
+				}
+				check_in  = new Date(check_in);
+				check_out = new Date(check_out);
+				date1_ms = check_in.getTime();
+				date2_ms = check_out.getTime();
+				difference = date2_ms - date1_ms;
+				No_of_days  = Math.round(difference/one_day) + 1;
+
+				if (No_of_days <=0)
+				{
+					alert("Enter valid dates");
+					document.getElementById("check_out_date").value = '';
+				}
+                var amount;
+				amount = No_of_days * {{ amount }};
+				document.getElementById("amount").value = amount;
+				return amount;
+		}
+		function Validate_num(num)
+		{
+
+			num.value = num.value.replace(/[^0-9]+/, '');
+		}
+		function ValidateEmail(inputText)
+		{
+
+			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			if(inputText.value.match(mailformat))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		function Validate_rooms(no_of_people, no_of_rooms)
+		{
+
+			if (no_of_rooms.value * 4 < no_of_people.value)
+			{
+					alert(" Maximum only 4 people allowed per room");
+					document.getElementById("no_of_people").value = '';
+					return false;
+			}
+
+			return true;
+		}
+        function calculate_amount_on_rooms(no_of_rooms)
+		{
+			if(no_of_rooms.value != '')
+			{
+				rooms = no_of_rooms.value;
+				p = calculate_amount();
+				amount = rooms * p;
+				document.getElementById("amount").value = amount;
+			}
+		}
+
+	</script>
+
+</head>
+
+<body>
+<div class="colorlib-nav" role="navigation">
+			<div class="top">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-4">
+							<p class="site">www.euphoria.com</p>
+						</div>
+						<div class="col-xs-8 text-right">
+							<p class="num">Call: +7680845022</p>
+							<ul class="colorlib-social">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+          <div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<div id="colorlib-logo"><a href="{% url 'home' %}">Euphoria_Bookings</a></div>
+						</div>
+						<div class="col-xs-10 text-right menu-1">
+							<ul>
+								<li class="active"><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="{% url 'about' %}">About</a></li>
+                                <li><a href="{% url 'hotel_upload' %}">Add Hotel</a></li>
+								<li><a href="{% url 'hotels' %}"> {{ user.username }} Hotels </a></li>
+
+								<li><a href="{% url 'contact' %}">Contact</a></li>
+
+								{% if user.is_authenticated %}
+
+								<li><a href="{% url 'logout' %}">Logout</a></li>
+								{% else %}
+								<li><a href="{% url 'login' %}">signup/login</a></li>
+							<!--	<li><a href="{% url 'register' %}">Register</a></li> -->
+								{% endif %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+
+
+
+<form action="" method = "post" enctype="multipart/form-data" style = "text-align: center">
+    {% csrf_token %}
+  <!--  General -->
+  <div class="form-group">
+
+   <h2 class="heading" style="border-left-style: solid;border-left-width: 83px0;padding-left: 45%;" align="center">Booking &amp; contact</h2>
+
+    <div class="controls">
+      <input type="text" id="name" class="floatLabel" name="name" required>
+      <label for="name">Name</label>
+    </div>
+	<div class="controls">
+      <input type="text" id="number" class="floatLabel" name="age" required maxlength="2" onkeyup = "Validate_num(this)">
+      <label for="name">Age</label>
+    </div>
+    <div class="controls">
+      <input type="email" id="email" class="floatLabel" name="email" placeholder="enter valid email" required oninput = "ValidateEmail(this)">
+      <label for="email">Email</label>
+    </div>
+    <div class="controls">
+      <input type="tel" id="phone" class="floatLabel" name="phone" required title = "10 digit number" maxlength="10" minlength = "10" pattern=".{10,}"  onkeyup = "Validate_num(this)">
+      <label for="phone">Phone</label>
+    </div>
+      <div class="grid">
+        <div class="col-2-3">
+          <div class="controls">
+           <input type="text" id="Proof type" class="floatLabel" name="proof_type" placeholder = "will be verified at hotel" required>
+           <label for="street">Proof type</label>
+          </div>
+        </div>
+        <div class="col-1-3">
+          <div class="controls">
+            <input type="text" id="Proof-id" class="floatLabel" name="proof_id" placeholder = "enter valid proof id" required>
+            <label for="street-number">Proof-id</label>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <!--  Details -->
+
+  <div class="form-group">
+    <h2 class="heading">Details</h2>
+    <div class="grid">
+    <div class="col-1-4 col-1-4-sm">
+      <div class="controls">
+        <input type="date" id="check_in_date" class="floatLabel" name="check_in" required onchange = "checkCheckInDate(this);calculate_amount()">
+        <label for="arrive" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Arrive</label>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-1-4 col-1-4-sm">
+      <div class="controls">
+        <input type="date" id="check_out_date" class="floatLabel" name="check_out" required onchange = "Checkout_Date(this);calculate_amount()" />
+        <label for="depart" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Depart</label>
+      </div>
+    </div>
+      </div>
+
+      <div class="grid">
+    <div class="col-1-3 col-1-3-sm">
+      <div class="controls">
+        <i class="fa fa-sort"></i>
+        <select class="floatLabel" id ="no_of_people" name = "no_of_people" required>
+          <option value="blank"></option>
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+		  <option value="4">4</option>
+		  <option value="5">5</option>
+		  <option value="6">6</option>
+		  <option value="7">7</option>
+		  <option value="8">8</option>
+		  <option value="9">9</option>
+		  <option value="10">10</option>
+		  <option value="11">11</option>
+		  <option value="12">12</option>
+		  <option value="13">13</option>
+		  <option value="14">14</option>
+		  <option value="15">15</option>
+		  <option value="16">16</option>
+		  <option value="17">17</option>
+		  <option value="18">18</option>
+		  <option value="19">19</option>
+		  <option value="20">20</option>
+        </select>
+        <label for="fruit"><i class="fa fa-male"></i>&nbsp;&nbsp;People</label>
+      </div>
+    </div>
+
+	<div class="col-1-3 col-1-3-sm">
+      <div class="controls">
+        <i class="fa fa-sort"></i>
+        <select class="floatLabel" id = "no_of_rooms" name = "no_of_rooms" onchange = calculate_amount_on_rooms(this)>
+          <option value="blank"></option>
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+		  <option value="4">4</option>
+		  <option value="5">5</option>
+
+        </select>
+        <label for="fruit">&nbsp;&nbsp;Number of rooms</label>
+      </div>
+    </div>
+     </div>
+
+	 <div class = "grid">
+	 <div class="col-1-3 col-1-3-sm">
+		<div class="controls">
+			<input type="text" id="amount" class="floatLabel" name="amount"  readonly>
+			<label for="name">Amount</label>
+		</div>
+	</div>
+
+	</div>
+
+      <div class="grid">
+        <p class="info-text">Please describe your needs e.g. Extra beds, children's cots</p>
+        <br>
+        <div class="controls">
+          <textarea name="special_request" class="floatLabel" id="comments" ></textarea>
+          <label for="special_request">Special Request</label>
+          </div>
+            <button type="submit" value="Submit" class="col-1-4" onclick = "return Validate_rooms(no_of_people, no_of_rooms)" >Submit</button>
+      </div>
+  </div> <!-- /.form-group -->
+</form>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <!--
+<script src='http://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery-ui-autocomplete.js'></script>
+<script src='http://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.js'></script>
+<script src='http://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.min.js'></script>
+-->
+  <script  src="{% static 'js/room_index.js' %}"></script>
+
+</body>
+
+</html>

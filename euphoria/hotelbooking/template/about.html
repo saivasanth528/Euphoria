@@ -1,0 +1,292 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>About</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+
+  <!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+		<!-- Icon -->
+		<link rel="icon" type="image/png" href="{% static 'images/icons/euphoria.ico' %}"/>
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> <!-- Drop down login -->
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+	<!-- Date Picker -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+	<!-- Flaticons  -->
+	<link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+	<!-- Modernizr JS -->
+	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="{% static 'js/respond.min.js' %}"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+
+	<div class="colorlib-loader"></div>
+
+	<div id="page">
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-4">
+							<p class="site">www.euphoria.com</p>
+						</div>
+						<div class="col-xs-8 text-right">
+							<p class="num">Call: 7680845022</p>
+							<ul class="colorlib-social">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<div id="colorlib-logo"><a href="{% url 'home' %}">Euphoria_bookings</a></div>
+						</div>
+						<div class="col-xs-10 text-right menu-1">
+							<ul>
+								<li class="active"><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="{% url 'about' %}">About</a></li>
+								<li><a href="{% url 'contact' %}">Contact</a></li>
+                                {% if user.is_authenticated %}
+
+								{% if user.isHotel_representative %}
+									<li><a href="{% url 'hotel_upload' %}"> Add Hotel </a></li>
+									<li><a href="{% url 'hotels' %}"> {{ user.username }} Hotels </a></li>
+								{% else %}
+									<li><a href="{% url 'mybookings' %}"> {{ user.username }} bookings </a></li>
+								{% endif %}
+								<li><a href="{% url 'logout' %}">Logout</a></li>
+								{% else %}
+
+                                <li>
+                                    <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Login</button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{% url 'login' 1  %}">Hotel Representative</a>
+                                        <a class="dropdown-item" href="{% url 'login' 0 %}">Customer</a>
+                                    </div>
+                                    </div>
+                                </li>
+
+                                {% endif %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<aside id="colorlib-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url('{% static  'images/img_bg_5.jpg' %}')";>
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+				   			<div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+				   				<div class="slider-text-inner slider-text-inner2 text-center">
+				   					<h2>Information</h2>
+				   					<h1>About Us</h1>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			  	</ul>
+		  	</div>
+		</aside>
+		<div id="colorlib-about">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="about animate-box">
+							<h2>Welcome to our Euphoria Booking site</h2>
+							<p>It is one of the finest and fastest booking site with exciting offers to  stick with you </p>
+							<p>We add colours to your trip , and make your trip memorable , the customers who are visiting constantly and booking
+								our site will get exciting offers , so don't wait let's be a part of this wonderful roller coaster ride</p>
+							<h3> If you want to register your own hotel just sign up as a hotel representative , once you are approved 
+									you can upload your hotel details , and your hotel be part of our ride :) </h3>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<img class="img-responsive" src="{% static 'images/img_bg_5.jpg' %}" alt="Image">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="colorlib-testimony" class="colorlib-light-grey">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
+						<span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+						<h2>Our Satisfied Guests says</h2>
+						<p>We love to tell our successful far far away, behind the word mountains, far from andhra pradesh, there live the blind texts.</p>
+					</div>
+				</div>
+				<div class="row">
+				<div class="col-md-4 animate-box">
+					<div class="testimony text-center">
+						<span class="img-user" style="background-image: url('{% static  'images/person2.jpg' %}')";>></span>
+						<span class="user">Fenny</span>
+						<small>Satisfied Customer</small>
+						<blockquote>
+							<p></i> It is one of the coolest hotel booking site with cool offers which made by trip excited</p>
+						</blockquote>
+					</div>
+				</div>
+				<div class="col-md-4 animate-box">
+					<div class="testimony text-center">
+						<span class="img-user" style="background-image: url('{% static  'images/person1.jpg' %}')";>></span>
+						<span class="user">Avinash Kanna</span>
+						<small>Satisfied Customer</small>
+						<blockquote>
+							<p></i> This site made by araku trip colourful with exciting unexpected offers and coupons</p>
+						</blockquote>
+					</div>
+				</div>
+				<div class="col-md-4 animate-box">
+					<div class="testimony text-center">
+						<span class="img-user" style="background-image: url('{% static  'images/person3.jpg' %}')";>></span>
+						<span class="user">Subhash</span>
+						<small>Satisfied Customer</small>
+						<blockquote>
+							<p></i>I booked a room
+								through this site, in return i got a lucky offer to travel free :)</p>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<div id="colorlib-subscribe" style="background-image: url(images/img_bg_2.jpg);">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
+						<span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+						<h2>Sign Up for a Newsletter</h2>
+						<p>Get A 50% Discounts in every Rooms, Book now!</p>
+						<form class="form-inline qbstp-header-subscribe">
+							<div class="row">
+								<div class="col-md-12 col-md-offset-0">
+									<div class="form-group">
+										<input type="text" class="form-control" id="email" placeholder="Enter your email" style="margin-left: -24px;margin-right: 251px;" type="text">
+										<button type="submit" class="btn btn-primary">Subscribe</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer id="colorlib-footer" role="contentinfo">
+			<div class="container">
+				<div class="row row-pb-md">
+					<div class="col-md-3 colorlib-widget">
+						<h4>Euphoria bookings</h4>
+						<p>Euphoria bookings exclusively built for making hotel bookings easily </p>
+						<p>
+							<ul class="colorlib-social-icons">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</p>
+					</div>
+
+					<div class="col-md-3 col-md-push-1">
+						<h4>Contact Information</h4>
+						<ul class="colorlib-footer-links">
+
+							<li><a href="tel://7680845022">+7680845022 </a></li>
+							<li><a href="euphoriareservation@gmail.com">euphoriareservation@gmail.com</a></li>
+							<li><a href="http://euphoriabookings.com">euphoriabookings.com</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</footer>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+	</div>
+	
+<!-- jQuery -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<!-- jQuery Easing -->
+	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<!-- Flexslider -->
+	<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+	<!-- Owl carousel -->
+	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+	<!-- Magnific Popup -->
+	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'js/magnific-popup-options.js' %}"></script>
+	<!-- Date Picker -->
+	<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+	<!-- Main -->
+	<script src="{% static 'js/main.js' %}"></script>
+
+	</body>
+</html>
+

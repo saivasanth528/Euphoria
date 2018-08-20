@@ -1,0 +1,152 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE HTML>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Euphoria booking</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<link rel="icon" type="image/png" href="{% static 'images/icons/euphoria.ico' %}"/>
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+
+	<!-- Theme style  -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- culprit for changing theme -->
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">   <!-- Font changing :) -->
+
+
+</head>
+<body>
+
+  <div id="page">
+		<div class="colorlib-nav" role="navigation">
+			<div class="top">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-4">
+							<p class="site">www.euphoria.com</p>
+						</div>
+						<div class="col-xs-8 text-right">
+							<p class="num">Call: +7680845022</p>
+							<ul class="colorlib-social">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+          <div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<div id="colorlib-logo"><a href="{% url 'home' %}">Euphoria_Bookings</a></div>
+						</div>
+						<div class="col-xs-10 text-right menu-1">
+							<ul>
+								<li class="active"><a href="{% url 'home' %}">Home</a></li>
+								<li><a href="{% url 'about' %}">About</a></li>
+                                <li><a href="{% url 'hotel_upload' %}">Add Hotel</a></li>
+								<li><a href="{% url 'hotels' %}"> {{ user.username }} Hotels </a></li>
+
+								<li><a href="{% url 'contact' %}">Contact</a></li>
+
+								{% if user.is_authenticated %}
+
+
+								<li><a href="{% url 'logout' %}">Logout</a></li>
+								{% else %}
+								<li><a href="{% url 'login' %}">signup/login</a></li>
+							<!--	<li><a href="{% url 'register' %}">Register</a></li> -->
+								{% endif %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+
+
+  <div style="margin-bottom: 20px;">
+  <form  method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+  <table id="gallery" class="table table-bordered">
+
+      <tbody>
+       {% csrf_token %}
+        {% for field in form %}
+            <tr>
+                {{ field.errors }}
+                <td> {{ field.label_tag }}</td>
+                <td>{{ field  }}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+
+  </table>
+
+    <!--<b>For uploading of more hotel photos</b>-->
+
+  <!--<div align="center">-->
+    <!--<button type="button" class="btn btn-primary js-upload-photos">-->
+      <!--Upload photos-->
+    <!--</button>-->
+      <!--<input id="fileupload" type="file" name="hotel_main_img" multiple-->
+           <!--style="display: none;"-->
+           <!--data-url="{% url 'hotel_upload' %}"-->
+           <!--data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>-->
+  <!--</div>-->
+
+       <!--<input type="submit" value="Submit"  style="margin-left: 37%;" />-->
+      <div >
+        <button type="submit" class="btn btn-primary" style="border-left-width: 0px;margin-left: 36%;">Submit</button>
+      </div>
+  </form>
+  </div>
+
+
+  <!--<div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">-->
+    <!--<div class="modal-dialog">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<h4 class="modal-title">Uploading...</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--<div class="progress">-->
+            <!--<div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+
+   <!--<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>-->
+   <!--<script src="{% static 'js/bootstrap.min.js' %}"></script>-->
+
+    <!--{% block javascript %}-->
+      <!--{# JQUERY FILE UPLOAD SCRIPTS #}-->
+        <!--<script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>-->
+        <!--<script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>-->
+        <!--<script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>-->
+        <!--<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">-->
+      <!--{# PHOTOS PAGE SCRIPTS #}-->
+      <!--<script src="{% static '/js/progress-bar-upload.js' %}"></script>-->
+    <!--{% endblock %}-->
+
+  </div>
+  </body>
+
+</html>
